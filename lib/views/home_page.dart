@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Tracer Covid - OSM'),
+        title: const Text('Tracer Covid - DFS'),
         actions: [
           IconButton(
             icon: const Icon(Icons.route),

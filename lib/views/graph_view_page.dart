@@ -9,7 +9,7 @@ class GraphViewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Hasil DFS')),
+      appBar: AppBar(title: const Text('Hasil DFS COYYYY')),
       body: ListView.builder(
         itemCount: controller.visitedNodes.length,
         itemBuilder: (context, index) {
