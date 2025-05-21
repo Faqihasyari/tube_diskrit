@@ -38,53 +38,80 @@ class _HomePageState extends State<HomePage> {
           )
         ],
       ),
-      body: FlutterMap(
-        options: MapOptions(
-          initialCenter: _center,
-          initialZoom: 13.0,
-          onLongPress: (tapPosition, latlng) {
-            mapCtrl.addNode(latlng);
-          },
-        ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          TileLayer(
-            urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-            userAgentPackageName: 'com.example.tubes_diskrit',
+          Container(
+            height: 400,
+            child: FlutterMap(
+              options: MapOptions(
+                initialCenter: _center,
+                initialZoom: 13.0,
+                onLongPress: (tapPosition, latlng) {
+                  mapCtrl.addNode(latlng);
+                },
+              ),
+              children: [
+                TileLayer(
+                  urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                  userAgentPackageName: 'com.example.tubes_diskrit',
+                ),
+                MarkerLayer(
+                  markers: mapCtrl.nodes
+                      .map((node) => Marker(
+                            point: node.position,
+                            width: 40,
+                            height: 40,
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  selectedNodeId = node.id;
+                                });
+                              },
+                              child: Icon(
+                                Icons.location_on,
+                                color: node.id == selectedNodeId
+                                    ? Colors.green
+                                    : Colors.red,
+                                size: 36,
+                              ),
+                            ),
+                          ))
+                      .toList(),
+                ),
+                PolylineLayer(
+                  polylines: mapCtrl.edges.map((edge) {
+                    final from =
+                        mapCtrl.nodes.firstWhere((n) => n.id == edge.fromId);
+                    final to =
+                        mapCtrl.nodes.firstWhere((n) => n.id == edge.toId);
+                    return Polyline(
+                      points: [from.position, to.position],
+                      strokeWidth: 4,
+                      color: Colors.blue,
+                    );
+                  }).toList(),
+                ),
+              ],
+            ),
           ),
-          MarkerLayer(
-            markers: mapCtrl.nodes
-                .map((node) => Marker(
-                      point: node.position,
-                      width: 40,
-                      height: 40,
-                      child: GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            selectedNodeId = node.id;
-                          });
-                        },
-                        child: Icon(
-                          Icons.location_on,
-                          color: node.id == selectedNodeId
-                              ? Colors.green
-                              : Colors.red,
-                          size: 36,
-                        ),
-                      ),
-                    ))
-                .toList(),
+          SizedBox(
+            height: 20,
           ),
-          PolylineLayer(
-            polylines: mapCtrl.edges.map((edge) {
-              final from = mapCtrl.nodes.firstWhere((n) => n.id == edge.fromId);
-              final to = mapCtrl.nodes.firstWhere((n) => n.id == edge.toId);
-              return Polyline(
-                points: [from.position, to.position],
-                strokeWidth: 4,
-                color: Colors.blue,
-              );
-            }).toList(),
-          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Builder(
+              builder: (context) {
+                if (selectedNodeId == null) {
+                  return const Text('Node belum dipilih');
+                }
+                final result = mapCtrl.dfs(selectedNodeId!);
+                return Container(
+                    child: Text(
+                        result.map((e) => e.id.substring(0, 5)).join(', ')));
+              },
+            ),
+          )
         ],
       ),
       bottomNavigationBar: Padding(
