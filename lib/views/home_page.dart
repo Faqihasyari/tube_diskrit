@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
 import 'package:tubes_diskrit/controller/map_controller.dart';
@@ -115,7 +116,9 @@ class _HomePageState extends State<HomePage> {
                       height: screenHeight * 0.13,
                       decoration: BoxDecoration(
                           color: Colors.amber,
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10),
+                          )),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 40),
                         child: Row(
@@ -137,6 +140,7 @@ class _HomePageState extends State<HomePage> {
                                 children: [
                                   Text(
                                     'Kode lokasi covid',
+                                    style: GoogleFonts.caveat(),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
