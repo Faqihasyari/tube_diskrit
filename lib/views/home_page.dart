@@ -106,9 +106,43 @@ class _HomePageState extends State<HomePage> {
                   return const Text('Node belum dipilih');
                 }
                 final result = mapCtrl.dfs(selectedNodeId!);
+                final screenWidth = MediaQuery.of(context).size.width;
+                final screenHeight = MediaQuery.of(context).size.height;
                 return Container(
-                    child: Text(
-                        result.map((e) => e.id.substring(0, 5)).join(', ')));
+                    width: screenWidth,
+                    height: screenHeight * 0.13,
+                    decoration: BoxDecoration(
+                        color: Colors.amber,
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20),
+                          child: CircleAvatar(
+                            radius: 35,
+                            backgroundColor: Colors.white,
+                            child: Image.asset(
+                              'assets/images/lokasi.png',
+                              height: 48,
+                              width: 48,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 110,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text('Kode lokasi Covid'),
+                            Text(result
+                                .map((e) => e.id.substring(0, 5))
+                                .join(', ')),
+                          ],
+                        ),
+                      ],
+                    ));
               },
             ),
           )
