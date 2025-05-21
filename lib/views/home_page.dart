@@ -108,41 +108,56 @@ class _HomePageState extends State<HomePage> {
                 final result = mapCtrl.dfs(selectedNodeId!);
                 final screenWidth = MediaQuery.of(context).size.width;
                 final screenHeight = MediaQuery.of(context).size.height;
-                return Container(
-                    width: screenWidth,
-                    height: screenHeight * 0.13,
-                    decoration: BoxDecoration(
-                        color: Colors.amber,
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 20),
-                          child: CircleAvatar(
-                            radius: 35,
-                            backgroundColor: Colors.white,
-                            child: Image.asset(
-                              'assets/images/lokasi.png',
-                              height: 48,
-                              width: 48,
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 110,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Container(
+                      width: screenWidth,
+                      height: screenHeight * 0.13,
+                      decoration: BoxDecoration(
+                          color: Colors.amber,
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 40),
+                        child: Row(
                           children: [
-                            Text('Kode lokasi Covid'),
-                            Text(result
-                                .map((e) => e.id.substring(0, 5))
-                                .join(', ')),
+                            CircleAvatar(
+                              radius: 32,
+                              backgroundColor: Colors.white,
+                              child: Image.asset(
+                                'assets/images/lokasi.png',
+                                height: 48,
+                                width: 48,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Flexible(
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'Kode lokasi covid',
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20),
+                                    child: VerticalDivider(
+                                      color: Colors.grey,
+                                      thickness: 1,
+                                      indent: 7,
+                                      endIndent: 7,
+                                      width: 0.0001,
+                                    ),
+                                  ),
+                                  Text(
+                                      ' ${result.map((e) => e.id.substring(0, 5)).join(', ')}')
+                                ],
+                              ),
+                            ),
                           ],
                         ),
-                      ],
-                    ));
+                      )),
+                );
               },
             ),
           )
