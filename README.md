@@ -1,6 +1,7 @@
 # tubes_diskrit
 ## ini akan menjadi dfs algoritma
 ### bar nya belum saya benarkan karena saya sibuk ke hal lain
+### sebelum tanggal 31 harus sudah selesai
 
 A new Flutter project.
 
