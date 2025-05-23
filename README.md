@@ -2,6 +2,7 @@
 ## ini akan menjadi dfs algoritma
 ### bar nya belum saya benarkan karena saya sibuk ke hal lain
 ### sebelum tanggal 31 harus sudah selesai
+### saya akan melakukan yang saya bisa
 
 A new Flutter project.
 
