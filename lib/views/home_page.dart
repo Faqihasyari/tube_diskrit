@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
 import 'package:tubes_diskrit/controller/map_controller.dart';
+import 'package:tubes_diskrit/theme/theme.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -21,7 +22,9 @@ class _HomePageState extends State<HomePage> {
     final mapCtrl = Provider.of<CovidMapController>(context);
 
     return Scaffold(
+      backgroundColor: Colors.teal[500],
       appBar: AppBar(
+        backgroundColor: Colors.teal[500],
         title: const Text('Tracer Covid - DFS'),
         actions: [
           IconButton(
@@ -104,7 +107,7 @@ class _HomePageState extends State<HomePage> {
             child: Builder(
               builder: (context) {
                 if (selectedNodeId == null) {
-                  return const Text('Node belum dipilih');
+                  return Center(child: Text('Node belum dipilih'));
                 }
                 final result = mapCtrl.dfs(selectedNodeId!);
                 final screenWidth = MediaQuery.of(context).size.width;
@@ -115,7 +118,7 @@ class _HomePageState extends State<HomePage> {
                       width: screenWidth,
                       height: screenHeight * 0.13,
                       decoration: BoxDecoration(
-                          color: Colors.amber,
+                          color: barColor,
                           borderRadius: BorderRadius.all(
                             Radius.circular(10),
                           )),
@@ -139,8 +142,8 @@ class _HomePageState extends State<HomePage> {
                               child: Row(
                                 children: [
                                   Text(
-                                    'Kode lokasi covid',
-                                    style: GoogleFonts.caveat(),
+                                    'Kode lokasi',
+                                    style: GoogleFonts.caveat(fontSize: 20),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
@@ -153,8 +156,23 @@ class _HomePageState extends State<HomePage> {
                                       width: 0.0001,
                                     ),
                                   ),
-                                  Text(
-                                      ' ${result.map((e) => e.id.substring(0, 5)).join(', ')}')
+                                  Expanded(
+                                    child: Container(
+                                      height: 100,
+                                      child: SingleChildScrollView(
+                                        scrollDirection: Axis.vertical,
+                                        child: Text(
+                                          result
+                                              .map((e) => e.id.substring(0, 5))
+                                              .join(', '),
+                                          style: GoogleFonts.caveat(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18),
+                                          softWrap: true,
+                                        ),
+                                      ),
+                                    ),
+                                  )
                                 ],
                               ),
                             ),
@@ -164,15 +182,42 @@ class _HomePageState extends State<HomePage> {
                 );
               },
             ),
+          ),
+          SizedBox(
+            height: 8,
+          ),
+          Divider(
+            color: Colors.grey,
+            thickness: 1,
+            indent: 7,
+            endIndent: 7,
           )
         ],
       ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.fromLTRB(50, 0, 50, 5),
         child: ElevatedButton(
           onPressed:
               selectedNodeId != null ? () => _showEdgeDialog(mapCtrl) : null,
-          child: const Text("Hubungkan Node ke Lainnya"),
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+            ),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: const [
+              Icon(
+                Icons.location_on,
+                color: Color(0xff4C7380),
+              ),
+              SizedBox(width: 8),
+              Text(
+                'Hubungkan ke node lainnya',
+                style: TextStyle(color: Color(0xff4C7380)),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -185,7 +230,6 @@ class _HomePageState extends State<HomePage> {
         final otherNodes =
             mapCtrl.nodes.where((n) => n.id != selectedNodeId).toList();
         String? selectedTarget;
-
         return AlertDialog(
           title: const Text("Pilih Node Tujuan"),
           content: DropdownButtonFormField<String>(
