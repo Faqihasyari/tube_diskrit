@@ -107,7 +107,7 @@ class _HomePageState extends State<HomePage> {
             child: Builder(
               builder: (context) {
                 if (selectedNodeId == null) {
-                  return Center(child: Text('Node belum ada yang dipilih'));
+                  return Center(child: Text('Node belum dipilih'));
                 }
                 final result = mapCtrl.dfs(selectedNodeId!);
                 final screenWidth = MediaQuery.of(context).size.width;
