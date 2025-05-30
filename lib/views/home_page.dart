@@ -14,7 +14,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  LatLng _center = LatLng(-6.7333, 108.5667); // Jakarta
+  final LatLng _center = LatLng(-6.7333, 108.5667);
   String? selectedNodeId;
 
   @override
