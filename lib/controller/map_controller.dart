@@ -45,10 +45,8 @@ class CovidMapController extends ChangeNotifier {
         visited.add(nodeId);
         final node = _nodes.firstWhere((n) => n.id == nodeId);
         result.add(node);
-        final neighbors = _edges
-            .where((e) => e.fromId == nodeId)
-            .map((e) => e.toId)
-            .toList();
+        final neighbors =
+            _edges.where((e) => e.fromId == nodeId).map((e) => e.toId).toList();
         for (final neighborId in neighbors) {
           visit(neighborId);
         }
