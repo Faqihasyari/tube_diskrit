@@ -67,6 +67,7 @@ class _HomePageState extends State<HomePage> {
                             width: 40,
                             height: 40,
                             child: GestureDetector(
+                              behavior: HitTestBehavior.opaque,
                               onTap: () {
                                 setState(() {
                                   selectedNodeId = node.id;
@@ -242,9 +243,14 @@ class _HomePageState extends State<HomePage> {
           actions: [
             TextButton(
               onPressed: () {
-                if (selectedTarget != null && selectedNodeId != null) {
+                if (selectedTarget != null) {
                   mapCtrl.addEdge(selectedNodeId!, selectedTarget!);
                   Navigator.pop(context);
+
+                  // Ganti titik awal ke node yang baru dihubungkan
+                  setState(() {
+                    selectedNodeId = selectedTarget;
+                  });
                 }
               },
               child: const Text("Hubungkan"),

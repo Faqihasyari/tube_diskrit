@@ -26,15 +26,21 @@ class CovidMapController extends ChangeNotifier {
   List<MapNode> get nodes => _nodes;
   List<MapEdge> get edges => _edges;
 
-  void addNode(LatLng position) {
-    _nodes.add(MapNode(position));
-    notifyListeners();
-  }
+  MapNode? _lastAddedNode;
 
+  void addNode(LatLng position) {
+  final newNode = MapNode(position);
+  _nodes.add(newNode);
+
+  _lastAddedNode = newNode;
+  notifyListeners();
+}
   void addEdge(String fromId, String toId) {
     _edges.add(MapEdge(fromId, toId));
     notifyListeners();
   }
+
+  
 
   List<MapNode> dfs(String startId) {
     final visited = <String>{};
@@ -45,8 +51,10 @@ class CovidMapController extends ChangeNotifier {
         visited.add(nodeId);
         final node = _nodes.firstWhere((n) => n.id == nodeId);
         result.add(node);
-        final neighbors =
-            _edges.where((e) => e.fromId == nodeId).map((e) => e.toId).toList();
+        final neighbors = _edges
+            .where((e) => e.fromId == nodeId)
+            .map((e) => e.toId)
+            .toList();
         for (final neighborId in neighbors) {
           visit(neighborId);
         }
