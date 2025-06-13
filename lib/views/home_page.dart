@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage> {
                     content: Text('Semua node dan edge telah direset')),
               );
             },
-            icon: const Icon(Icons.reset_tv),
+            icon: const Icon(Icons.refresh),
           ),
           IconButton(
             icon: const Icon(Icons.route),
