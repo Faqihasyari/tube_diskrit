@@ -40,7 +40,12 @@ class CovidMapController extends ChangeNotifier {
     notifyListeners();
   }
 
-  
+  void reset() {
+    _nodes.clear();
+    _edges.clear();
+    _lastAddedNode = null;
+    notifyListeners();
+  }
 
   List<MapNode> dfs(String startId) {
     final visited = <String>{};

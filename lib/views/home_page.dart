@@ -28,6 +28,23 @@ class _HomePageState extends State<HomePage> {
         title: const Text('Tracer Covid - DFS'),
         actions: [
           IconButton(
+            onPressed: () {
+              final mapCtrl =
+                  Provider.of<CovidMapController>(context, listen: false);
+              mapCtrl.reset();
+              setState(() {
+                selectedNodeId = null; // Reset juga titik awal terpilih
+              });
+
+              // Optional: beri notifikasi ke user
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                    content: Text('Semua node dan edge telah direset')),
+              );
+            },
+            icon: const Icon(Icons.reset_tv),
+          ),
+          IconButton(
             icon: const Icon(Icons.route),
             onPressed: () {
               if (selectedNodeId != null) {
