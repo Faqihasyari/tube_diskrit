@@ -56,7 +56,23 @@ class _HomePageState extends State<HomePage> {
                 );
               }
             },
-          )
+          ),
+          IconButton(
+            icon: Icon(Icons.travel_explore),
+            tooltip: "Lihat Penyebaran Terjauh",
+            onPressed: () {
+              if (selectedNodeId != null && mapCtrl.nodes.length >= 2) {
+                final endNode =
+                    mapCtrl.nodes.lastWhere((n) => n.id != selectedNodeId);
+                mapCtrl.autoConnectPathUsingDFS(selectedNodeId!, endNode.id);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                      content: Text(
+                          "Terhubung ke ${endNode.id.substring(0, 5)}")),
+                );
+              }
+            },
+          ),
         ],
       ),
       body: Column(
@@ -113,6 +129,43 @@ class _HomePageState extends State<HomePage> {
                       color: Colors.blue,
                     );
                   }).toList(),
+                ),
+                PolylineLayer(
+                  polylines: mapCtrl.dfsPath.map((edge) {
+                    final from =
+                        mapCtrl.nodes.firstWhere((n) => n.id == edge.fromId);
+                    final to =
+                        mapCtrl.nodes.firstWhere((n) => n.id == edge.toId);
+                    return Polyline(
+                      points: [from.position, to.position],
+                      strokeWidth: 4,
+                      color: Colors.orange, // untuk membedakan
+                    );
+                  }).toList(),
+                ),
+                PolylineLayer(
+                  polylines: mapCtrl.shortestPathEdges
+                      .map((edge) {
+                        MapNode? from;
+                        MapNode? to;
+
+                        try {
+                          from = mapCtrl.nodes
+                              .firstWhere((n) => n.id == edge.fromId);
+                          to = mapCtrl.nodes
+                              .firstWhere((n) => n.id == edge.toId);
+                        } catch (_) {
+                          return null; // jika tidak ditemukan, abaikan edge ini
+                        }
+
+                        return Polyline(
+                          points: [from.position, to.position],
+                          strokeWidth: 5,
+                          color: Colors.green,
+                        );
+                      })
+                      .whereType<Polyline>()
+                      .toList(),
                 ),
               ],
             ),
